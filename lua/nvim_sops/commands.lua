@@ -8,10 +8,15 @@ local M = {}
 M.file_encrypt = function()
   -- load lyaml
   local input_file = vim.fn.expand('%:p')
-  local dir = vim.fn.expand('%:p:h')
+  local config_args = ''
+  if vim.g.nvim_sops_config_find_near_file then
+    local dir = vim.fn.expand('%:p:h')
+    local config_file = dir .. '/' .. vim.g.nvim_sops_config_sub_path
+    config_args = '--config ' .. config_file .. ' '
+  end
   local project_path = vim.fn.fnamemodify(vim.fn.expand('%'), ':.')
-  debug('decrypting', input_file)
-
+  debug('encrypting', input_file)
+  
   -- local sops_file = sops.find_sops_config_file(dir)
   -- local sops_config = parse_yaml_with_yq(sops_file)
   --
@@ -48,7 +53,7 @@ M.file_encrypt = function()
     '--in-place',
   }
 
-  local command = envs .. binary .. table.concat(args, ' ') .. ' ' .. input_file
+  local command = envs .. binary .. config_args .. table.concat(args, ' ') .. ' ' .. input_file
   debug(command)
 
   vim.fn.system(command)
