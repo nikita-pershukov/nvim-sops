@@ -22,6 +22,9 @@ M.setup = function(options)
   vim.g.nvim_sops_debug = o(options.debug, vim.g.nvim_sops_debug, false)
   vim.g.nvim_sops_bin_path = o(options.binPath, vim.g.nvim_sops_bin_path, "sops")
 
+  vim.g.nvim_sops_config_sub_path = o(options.configSubPath, vim.g.nvim_sops_config_sub_path, ".sops.yaml")
+  vim.g.nvim_sops_config_find_near_file = o(options.configFindNearFile, vim.g.nvim_sops_config_find_near_file, false)
+
   vim.g.nvim_sops_defaults_aws_profile = o(options.defaults.awsProfile, vim.g.nvim_sops_defaults_aws_profile,
     os.getenv("AWS_PROFILE"))
   vim.g.nvim_sops_defaults_age_key_file = o(options.defaults.ageKeyFile, vim.g.nvim_sops_defaults_age_key_file,
